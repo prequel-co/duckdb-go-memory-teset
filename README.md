@@ -1,0 +1,1 @@
+# duckdb-go-memory-teset
