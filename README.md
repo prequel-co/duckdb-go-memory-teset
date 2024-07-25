@@ -1,4 +1,4 @@
-# duckdb-go-memory-teset
+# duckdb-go-memory-test
 
 ```sh
 go run main.go
