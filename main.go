@@ -12,7 +12,7 @@ const CompactionQuery = `
 COPY (
 		SELECT id AS "id", (updated_at::TIMESTAMPTZ) AS "updated_at", log AS "log", CAST(test_decimal AS decimal(38,19)) AS "test_decimal", updated_date AS "updated_date" FROM read_parquet(['0.parquet','1.parquet','2.parquet','3.parquet'])
 
-) TO 'serialized_file.parquet' (FORMAT 'PARQUET', CODEC 'SNAPPY')
+) TO 'serialized_file.parquet' (FORMAT 'PARQUET', CODEC 'uncompressed')
 
 `
 
@@ -24,17 +24,20 @@ FROM
 `
 
 func main() {
+	fmt.Println("opening duckdb connection")
 	db, err := openDuckDB("test.db")
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 
+	fmt.Println("creating compacted parquet file")
 	_, err = db.Exec(CompactionQuery)
 	if err != nil {
 		panic(err)
 	}
 
+	fmt.Println("reading compacted parquet file")
 	rows, err := db.Queryx(ReadQuery)
 	if err != nil {
 		panic(err)
@@ -52,7 +55,7 @@ func main() {
 	}	
 
 
-	fmt.Printf("Found: %d rows\n", count)
+	fmt.Printf("read: %d rows\n", count)
 
 }
 
