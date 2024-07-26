@@ -17,3 +17,10 @@ go run main.go
 ```sh
 duckdb test.db < pure.sql
 ```
+
+## Python Test
+```sh
+pip3 install duckdb
+python3 main.go
+```
+

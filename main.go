@@ -31,11 +31,11 @@ func main() {
 	}
 	defer db.Close()
 
-	fmt.Println("creating compacted parquet file")
-	_, err = db.Exec(CompactionQuery)
-	if err != nil {
-		panic(err)
-	}
+	// fmt.Println("creating compacted parquet file")
+	// _, err = db.Exec(CompactionQuery)
+	// if err != nil {
+	// 	panic(err)
+	// }
 
 	fmt.Println("reading compacted parquet file")
 	rows, err := db.Queryx(ReadQuery)
@@ -48,6 +48,9 @@ func main() {
 
 	for rows.Next(){
 		count += 1
+		if count % 100 == 0 {
+			fmt.Println("another 100 rows")
+		}
 	}
 
 	if rows.Err() != nil {

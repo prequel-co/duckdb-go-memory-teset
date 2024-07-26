@@ -26,3 +26,10 @@ FROM (
 );
 
 
+
+
+SELECT
+	id AS "id", updated_at AS "updated_at", log AS "log", CAST(test_decimal AS VARCHAR) AS "test_decimal", updated_date AS "updated_date"
+FROM
+    read_parquet('serialized_file.parquet');
+
